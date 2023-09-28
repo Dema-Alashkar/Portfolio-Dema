@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    background-color: #333333;
+    color: hwb(0 41% 44%);
+    font-family: Open sans, sans-serif;
+}
+
+body{
+    background-color: #333333;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: hwb(0 41% 44%);
+
+}
+
+h1{
+    padding: 0;
+    margin-top: 0;
+}
+

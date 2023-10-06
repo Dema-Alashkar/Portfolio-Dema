@@ -1,0 +1,15 @@
+
+<div>
+    <h1>Projects</h1>
+    {{#if hasError}}
+        <p>
+            There is a problem with the database: {{theError}}
+        </p>
+    {{else}}
+        {{#each projects}}
+            <div>
+                {{projectTitle}}: {{projectDesc}}
+            </div>
+        {{/each}}
+    {{/if}}
+</div>

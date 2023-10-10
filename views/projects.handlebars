@@ -1,15 +1,47 @@
+<section id="projects">
+    <div class="container">
+        <div class="row">
+            <form action="/projects/create" method="get">
+                <input type="submit" value="Create Project">    
+            </form>
+            {{#if projects.length}}
+            <h1 class="projectstitle"> 
+                Here are my Projects
+            </h1>
+            <ul class="projectlist">
+                {{#each projects}}
+                <ul class="">
+                    <li class="">
+                        <div class="projectcontainer">
+                            <img class="hero" src="" alt="img of the project" srcset="">
+                            <div class="projectdescription">
+                                
+                                <h1 class="project--title">
+                                    {{title}}
+                                </h1>
 
-<div>
-    <h1>Projects</h1>
-    {{#if hasError}}
-        <p>
-            There is a problem with the database: {{theError}}
-        </p>
-    {{else}}
-        {{#each projects}}
-            <div>
-                {{projectTitle}}: {{projectDesc}}
-            </div>
-        {{/each}}
-    {{/if}}
-</div>
+                                <p class="project--para">
+                                    {{desc}}
+                                </p>
+
+                                <p class="link_to_project_in_gitHub"> 
+                                    {{link}}
+                                </p>
+
+                                <p class="date_created">
+                                    {{date}}
+                                </p>
+
+                                <a href="/projects/{{id}}">
+                                    View Project
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                {{/each}}
+            </ul>
+            {{/if}}
+        </div>
+    </div>
+</section>

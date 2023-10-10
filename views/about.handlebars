@@ -1,0 +1,24 @@
+<div id="main">
+    <li><a href="/about/skills/create">Create Skill</a></li>
+    <li><a href="/about/education/create">Create Education</a></li>
+    <li><a href="/about/experience/create">Create Experience</a></li>
+
+    <div class="update">
+
+        <form action="/about/skills/{{skill.id}}/update" method="get">
+            <input type="submit" value = "update">
+        </form>
+
+        <form action="/about/educations/{{ecucation.id}}/update" method="get">
+            <input type="submit" value = "update">
+        </form>
+
+        <form action="/about/experinces/{{experience.id}}/update" method="get">
+            <input type="submit" value = "update">
+        </form>
+
+        <form action="/about/skill/{{skill.id}}/delete" method="post">
+            <input type="submit" value="delete">
+        </form>
+    </div>
+</div>

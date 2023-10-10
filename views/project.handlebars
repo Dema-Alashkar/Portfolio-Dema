@@ -1,0 +1,32 @@
+<section id="project">
+    <div class="container">
+        {{#if project}}
+            <div class="row">
+                    <li class="project">
+                        <div class="projectcontainer">
+                            <img class="hero" src="/img/To-do-app.PNG" alt="img-calender" srcset="">
+                            <div class="projectdescription">
+                                <h1 class="project--title">
+                                    {{project.title}}
+                                </h1>
+                                <p class="project--para">
+                                    {{project.desc}}
+                                </p>
+                                <p class="date_created">
+                                    {{project.date}}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <div class="form-group">
+                        <form action="/projects/{{project.id}}/update" method="get">
+                            <input type="submit" value="update">
+                        </form>
+                        <form action="/projects/{{project.id}}/delete" method="post">
+                            <input type="submit" value="delete">
+                        </form>
+                    </div>
+            </div>
+        {{/if}}
+    </div>
+</section>

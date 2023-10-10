@@ -1,0 +1,38 @@
+<section>
+    <div class="row">
+    <h1 class="sectionname">Update <span class="citron">experience</span></h1>
+
+    <div class="createimgwrapper">
+        <img src="/public/assets/update.svg" alt="bild" class="createimg">
+    </div>
+
+    <form action="/experiences/{{experience.id}}/update" method="POST" class="form">
+
+        <div class="form-group col-5">
+            <label class="form-label" for="form-input">name</label>
+            <input class="form-input" type="text" placeholder="experience name" name="name" value="{{experience.name}}"
+                required />
+        </div>
+
+    <div class="form-group col-5">
+        <label class="form-label" for="input-description">Description</label>
+        <textarea class="form-input" id="input-description" placeholder="Type experience description" rows="5"
+        name="description">{{experience.description}}</textarea>
+    </div>
+
+
+    <div class="form-group col-5">
+        <label class="form-label" for="input-StartDate">StartDate</label>
+        <input class="form-input" type="text" placeholder="experience StartDate" name="StartDate" value="{{experience.StartDate}}" /required>
+    </div>
+    
+    <div class="form-group col-5">
+         <label class="form-label" for="input-EndDate">EndDate</label>
+         <input class="form-input" type="text" placeholder="experience EndDate" name="EndDate" value="{{experience.EndDate}}" /required>
+    </div>
+
+    <button type="submit" class="btn btn-primary col-1">Update</button>
+    </form>
+
+</div>
+</section>

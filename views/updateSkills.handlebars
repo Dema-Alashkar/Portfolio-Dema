@@ -1,0 +1,27 @@
+<section>
+    <div class="row">
+    <h1 class="sectionname">Update <span class="citron">skill</span></h1>
+
+    <div class="createimgwrapper">
+        <img src="/public/assets/update.svg" alt="bild" class="createimg">
+    </div>
+
+    <form action="/skills/{{skill.id}}/update" method="POST" class="form">
+
+        <div class="form-group col-5">
+            <label class="form-label" for="form-input">name</label>
+            <input class="form-input" type="text" placeholder="skill name" name="name" value="{{skill.name}}"
+                required />
+        </div>
+
+    <div class="form-group col-5">
+        <label class="form-label" for="input-description">Description</label>
+        <textarea class="form-input" id="input-description" placeholder="Type skill description" rows="5"
+        name="description">{{skill.description}}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary col-1">Update</button>
+    </form>
+
+</div>
+</section>

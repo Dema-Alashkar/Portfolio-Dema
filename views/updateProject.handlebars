@@ -10,29 +10,24 @@
 
         <div class="form-group col-5">
             <label class="form-label" for="form-input">Title</label>
-            <input class="form-input" type="text" placeholder="Project name" name="title" value="{{project.title}}"
+            <input class="form-input" type="text" placeholder="Project name" name="title" value="{{project.projectTitle}}"
                 required />
         </div>
 
     <div class="form-group col-5">
         <label class="form-label" for="input-description">Description</label>
         <textarea class="form-input" id="input-description" placeholder="Type project description" rows="5"
-        name="description">{{project.description}}</textarea>
-    </div>
-
-    <div class="form-group col-5">
-        <label class="form-label" for="input-image">Image</label>
-        <input class="form-input file removeBG" type="File" placeholder="Image" name="imgUrl" />{{project.Image}}
+        name="description">{{project.projectDesc}}</textarea>
     </div>
 
     <div class="form-group col-5">
         <label class="form-label" for="input-link">Link</label>
-        <input class="form-input" type="text" placeholder="Project Link" name="link" value="{{project.link}}" /required>
+        <input class="form-input" type="text" placeholder="Project Link" name="link" value="{{project.projectLink}}" /required>
     </div>
     
     <div class="form-group col-5">
          <label class="form-label" for="input-date">Date</label>
-         <input class="form-input" type="text" placeholder="Project Date" name="date" value="{{project.date}}" /required>
+         <input class="form-input" type="text" placeholder="Project Date" name="date" value="{{project.projectDate}}" /required>
     </div>
 
     <button type="submit" class="btn btn-primary col-1">Update</button>

@@ -4,16 +4,19 @@
             <div class="row">
                     <li class="project">
                         <div class="projectcontainer">
-                            <img class="hero" src="/img/To-do-app.PNG" alt="img-calender" srcset="">
+                            {{!-- <img class="hero" src="/img/To-do-app.PNG" alt="img-calender" srcset=""> --}}
                             <div class="projectdescription">
                                 <h1 class="project--title">
-                                    {{project.title}}
+                                    {{project.projectTitle}}
                                 </h1>
                                 <p class="project--para">
-                                    {{project.desc}}
+                                    {{project.projectDesc}}
+                                </p>
+                                <p class="project--link">
+                                    {{project.projectLink}}
                                 </p>
                                 <p class="date_created">
-                                    {{project.date}}
+                                    {{project.projectDate}}
                                 </p>
                             </div>
                         </div>

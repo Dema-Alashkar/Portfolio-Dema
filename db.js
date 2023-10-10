@@ -42,8 +42,8 @@ database.run(`
     )`
     
 )
-exports.createProject = function(title, desc, img,link, date, callback) {
-    const query = "INSERT INTO Projects (projectName, projectDesc, projectImage, projectLink, projectDate) VALUES (?,?,?,?,?)"
+exports.createProject = function(title, desc, img, link, date, callback) {
+    const query = "INSERT INTO Projects (projectTitle, projectDesc, projectImage, projectLink, projectDate) VALUES (?,?,?,?,?)"
     const values = [title, desc, img,link, date]
     console.log(query)
     console.log(values)
@@ -53,7 +53,7 @@ exports.createProject = function(title, desc, img,link, date, callback) {
 }
 
 exports.getAllProjects = function(callback){
-    const query = "SELECT * From Projects ORDER BY id DESC"
+    const query = "SELECT * FROM Projects ORDER BY id DESC"
 
     database.all(query, function(error, res){
         callback(error, res)

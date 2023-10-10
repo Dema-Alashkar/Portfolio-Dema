@@ -6,6 +6,13 @@
     outline: none;
 }
 
+/* Disable the ::marker for everyone */
+/* ! Show Sushi :) */
+li {
+    list-style: none;
+}
+
+
 body {
     background: #000;
     font-family: Open sans;

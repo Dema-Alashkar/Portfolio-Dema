@@ -10,7 +10,13 @@
                     <li><a href="/about">About me</a></li>
                     <li><a href="/projects">Projects</a></li>
                     <li><a href="/contact">Contact</a></li>
-                    <li><a href="/login">Login</a></li>
+                    {{#unless isLoggedIn}}
+                        <li><a href="/login">Login</a></li>
+                    {{else}}
+                    <form action="/logout" method="post">
+                        <input type="submit" value="Logout" class="btn btn-primary">
+                    </form>
+                    {{/unless}}
                 </ul>
             </div>
         </header>

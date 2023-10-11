@@ -69,7 +69,7 @@ exports.getProjectByID = function(id, callback){
 }
 
 exports.updateProjectById = function(id, projectTitle, projectDesc, projectImage, projectLink, projectDate, callback ){
-    const query = "UPDATE Projects SET projectTitle = ?, projectDesc = ?, projectImage = ?, projectLink = ?, projectDate = ?, WHERE id = ?"
+    const query = "UPDATE Projects SET projectTitle = ?, projectDesc = ?, projectImage = ?, projectLink = ?, projectDate = ? WHERE id = ?"
     const values = [projectTitle, projectDesc, projectImage, projectLink, projectDate, id]
 
     database.run(query, values, function (error){
@@ -79,10 +79,15 @@ exports.updateProjectById = function(id, projectTitle, projectDesc, projectImage
 
 exports.deleteProjectById = function(id, callback){
     const query = "DELETE FROM Projects WHERE id = ?"
-    const value = id
+    const values = id
 
-    database.run(query, value, function(error, res){
-        callback(error, res)
+    database.run(query, values, function (error, res) {
+        if (error) {
+            console.log(error)
+        } else {
+            console.log(res)
+            callback(error, res)
+        }
     })
 }
 // Skills
@@ -113,7 +118,7 @@ exports.getSkillByID = function(id, callback){
 }
 
 exports.updateSkillById = function(Skillid , SkillName, SkillDesc, callback){
-    const query = "UPDATE Skills SET SkillName = ?, SkillDesc = ?, WHERE id = ?"
+    const query = "UPDATE Skills SET SkillName = ?, SkillDesc = ? WHERE id = ?"
     const values = [SkillName, SkillDesc, Skillid]
 
     database.run(query, values, function (error){
@@ -132,7 +137,7 @@ exports.deleteSkillById = function(id, callback){
 //Education
 
 exports.createEducation = function(EducationName, EducationDesc, EducationStartDate, EducationEndDate, callback) {
-    const query = "INSERT INTO Education (EducationName, EducationDesc, EducationStartDate, EducationEndDate)"
+    const query = "INSERT INTO Education (EducationName, EducationDesc, EducationStartDate, EducationEndDate) VALUES (?, ?, ?, ?)"
     const values = [EducationName, EducationDesc, EducationStartDate, EducationEndDate]
     database.run(query,values,function(error){
         callback(error)
@@ -203,7 +208,7 @@ exports.getExperienceByID = function(id, callback){
 }
 
 exports.updateExperienceById = function(id , ExperienceName, ExperienceDesc, ExperienceStartdate, ExperienceEndDate, callback){
-    const query = "UPDATE Experience SET ExperienceName = ?, ExperienceDesc = ?, ExperienceStartdate = ?, ExperienceEndDate = ?, WHERE id = ?"
+    const query = "UPDATE Experience SET ExperienceName = ?, ExperienceDesc = ?, ExperienceStartdate = ?, ExperienceEndDate = ? WHERE id = ?"
     const values = [ExperienceName, ExperienceDesc, ExperienceStartdate, ExperienceEndDate, id]
 
     database.run(query, values, function (error){

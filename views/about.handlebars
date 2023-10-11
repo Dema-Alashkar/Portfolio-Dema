@@ -1,30 +1,9 @@
 <div id="main">
-    <li><a href="/about/skills/create">Create Skill</a></li>
-    <li><a href="/about/education/create">Create Education</a></li>
-    <li><a href="/about/experience/create">Create Experience</a></li>
-
-    <div class="update">
-
-        <form action="/about/skills/{{skills.id}}/update" method="get">
-            <input type="submit" value = "update">
-        </form>
-
-        <form action="/about/educations/{{ecucation.id}}/update" method="get">
-            <input type="submit" value = "update">
-        </form>
-
-        <form action="/about/experinces/{{experience.id}}/update" method="get">
-            <input type="submit" value = "update">
-        </form>
-
-        <form action="/about/skill/{{skill.id}}/delete" method="post">
-            <input type="submit" value="delete">
-        </form>
-    </div>
     <section id="skills">
     <div class="container">
         <div class="row">
-            <h1 class="SkillsName"> 
+            {{#if m_skills.length}}
+            <h1 class="SkillsName">
                 Here are my Skills
             </h1>
             <ul class="SkillsList">
@@ -33,9 +12,9 @@
                     <li class="">
                         <div class="skillcontainer">
                             <div class="skilldescription">
-                                
+
                                 <h1 class="skill--name">
-                                    {{m_skills.SkillName}}
+                                    {{SkillName}}
                                 </h1>
 
                                 <p class="skill--para">
@@ -51,6 +30,14 @@
                 </ul>
                 {{/each}}
             </ul>
+        {{else}}
+        <h1>Sorry there are no skills currently</h1>
+        {{/if}}
+        {{#if isLoggedIn}}
+        <li><a href="/about/skills/create">Create Skill</a></li>
+        <li><a href="/about/educations/create">Create Education</a></li>
+        <li><a href="/about/experience/create">Create Experience</a></li>
+        {{/if}}
 
         </div>
     </div>

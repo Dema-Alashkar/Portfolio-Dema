@@ -1,5 +1,7 @@
 const express = require("express"); // loads the express package
-const { engine } = require("express-handlebars"); // loads handlebars for Express
+const {
+  engine
+} = require("express-handlebars"); // loads handlebars for Express
 const sqlite3 = require('sqlite3');
 const bodyParser = require('body-parser')
 const session = require("express-session")
@@ -19,7 +21,9 @@ app.set("views", "./views");
 //difine static directory "public"
 app.use(express.static('public'))
 
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
 
 const db = require('./db')
 
@@ -43,40 +47,19 @@ app.get("/", function (req, res) {
 });
 
 app.get("/about", (req, res) => {
-  var m_skills = {}
-  /* var m_skills = {}
-  var m_skills = {} */
-
   db.getAllSkill((err, skills) => {
     if (err) {
       console.log(err)
-    }
-    else{
-      m_skills = skills
-    }
-    console.log(m_skills)
-  })
-  /* db.getAllEducation((err, education) => {
-    if (err) {
-      //return res.status(500).send(err)
-      model.errors += err
-      con sole.log(err)
-    }
-    else{
-      model.education = education
+      res.render('about.handlebars', {
+        m_skills: {}
+      })
+    } else {
+      console.log(skills)
+      res.render('about.handlebars', {
+        m_skills: skills
+      })
     }
   })
-  db.getAllExperience((err, experience) => {
-    if (err) {
-      //return res.status(500).send(err)
-      model.errors += err
-      console.log(err)
-    }
-    else{
-      model.experience = experience
-    }
-  }) */
-  res.render('about.handlebars', m_skills)
 });
 
 app.get("/contact", (req, res) => {
@@ -84,48 +67,43 @@ app.get("/contact", (req, res) => {
 });
 
 //Renders the login page
-app.get('/login',(req, res) => {
+app.get('/login', (req, res) => {
   res.render('login.handlebars');
 });
 
 
 
-app.get("/about/skills/create", (req, res) =>{
+app.get("/about/skills/create", (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
+    res.redirect('/login')
+  }
   res.render('createSkill.handlebars')
 });
 
 app.post("/about/skills/create", (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
+    res.redirect('/login')
+  }
   const skill = {
     name: req.body.name,
     desc: req.body.desc
   }
-  db.createSkill(skill.name, skill.desc, function(error){
+  db.createSkill(skill.name, skill.desc, function (error) {
     res.redirect('/about')
   })
 });
 
-app.get("/about/education/create", (req, res) =>{
-  res.render('createEducation.handlebars')
-});
-
-app.post("/about/education/create", (req, res) => {
-  const education = {
-    name: req.body.name,
-    desc: req.body.desc,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate
-
+app.get("/about/experience/create", (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
+    res.redirect('/login')
   }
-  db.createEducation(education.name, education.desc, education.startDate, education.endDate, function(error){
-    res.redirect('/about')
-  })
-});
-
-app.get("/about/experience/create", (req, res) =>{
   res.render('createExperience.handlebars')
 });
 
 app.post("/about/experience/create", (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
+    res.redirect('/login')
+  }
   const experience = {
     name: req.body.name,
     desc: req.body.desc,
@@ -133,7 +111,7 @@ app.post("/about/experience/create", (req, res) => {
     endDate: req.body.endDate
 
   }
-  db.createExperince(experience.name, experience.desc, experience.startDate, experience.endDate, function(error){
+  db.createExperince(experience.name, experience.desc, experience.startDate, experience.endDate, function (error) {
     res.redirect('/about')
   })
 });
@@ -142,8 +120,7 @@ app.get("/projects", (req, res) => {
   db.getAllProjects((err, projects) => {
     if (err) {
       return res.status(500).send(err)
-    }
-    else{
+    } else {
       model = {
         projects
       }
@@ -154,20 +131,26 @@ app.get("/projects", (req, res) => {
   })
 });
 
-app.get("/projects/create", (req, res) =>{
+app.get("/projects/create", (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
+    res.redirect('/login')
+  }
   res.render('createProject.handlebars')
 });
 
 app.post("/projects/create", (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
+    res.redirect('/login')
+  }
   const project = {
     title: req.body.title,
     desc: req.body.desc,
     img: req.body.image,
     link: req.body.link,
     date: req.body.date
-  } 
+  }
   console.log(project)
-  db.createProject(project.title, project.desc, project.img, project.link, project.date, function(error){
+  db.createProject(project.title, project.desc, project.img, project.link, project.date, function (error) {
     res.redirect('/projects')
   })
 });
@@ -187,21 +170,22 @@ app.get("/projects/:id", (req, res) => {
 });
 
 
-
-
 app.get("/projects/:id/update", (req, res) => {
-const id = req.params.id
-
-db.getProjectByID(id, (err, project) => {
-  if (err) {
-    return res.status(500).send(err)
-  }else {
-    const model = {
-      project
-    }
-      res.render('updateProject.handlebars', model)
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
+    res.redirect('/login')
   }
-})
+  const id = req.params.id
+
+  db.getProjectByID(id, (err, project) => {
+    if (err) {
+      return res.status(500).send(err)
+    } else {
+      const model = {
+        project
+      }
+      res.render('updateProject.handlebars', model)
+    }
+  })
 })
 
 
@@ -209,14 +193,14 @@ db.getProjectByID(id, (err, project) => {
 app.post('/projects/:id/update', (req, res) => {
   const id = req.params.id
   const project = {
-    projectTitle: req.body.projectTitle,
-    projectDesc: req.body.projectDesc,
-    projectImage: req.body.projectImage,
-    projectLink: req.body.projectLink,
-    projectDate: req.body.projectDate
+    projectTitle: req.body.title,
+    projectDesc: req.body.desc,
+    projectImage: "no image",
+    projectLink: req.body.link,
+    projectDate: req.body.date
   }
 
-  if (req.session.isLoggedIn === true && req.session.isAdmin === true) {
+  if (req.session.isLoggedIn == true && req.session.isAdmin == true) {
     //const id = req.params.id; // You need to get the id from the request parameters
     db.updateProjectById(
       id,
@@ -239,177 +223,251 @@ app.post('/projects/:id/update', (req, res) => {
   }
 });
 
+app.post('/projects/:id/delete', (req, res) => {
+  const id = req.params.id
+
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true) {
+    res.redirect('/login')
+  }
+
+  db.deleteProjectById(id, function (err) {
+    if (err) {
+      return res.status(500).send(err)
+    } else {
+      console.log("Project deleted!");
+      res.redirect('/projects')
+    }
+  })
+})
+
 app.get("/about/skills/:id", (req, res) => {
-  const id = req.params.id 
+  const id = req.params.id
 
   db.getSkillByID(id, (err, skill) => {
     if (err) {
       return res.status(500).send(err)
-    }else {
+    } else {
       const model = {
         skill
       }
-        res.render('skill.handlebars', model)
+      res.render('skill.handlebars', model)
     }
   })
-  })
+})
 
 
 app.get("/about/skills/:id/update", (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true) {
+    res.redirect('/login')
+  }
+
   const id = req.params.id
-  
-  db.getSkillsByID(id, (err, skill) => {
+
+  db.getSkillByID(id, (err, skill) => {
     if (err) {
       return res.status(500).send(err)
-    }else {
+    } else {
       const model = {
         skill
       }
       console.log(skill)
-        res.render('updateSkills.handlebars', model)
+      res.render('updateSkills.handlebars', model)
     }
   })
-  });
+});
 
-  app.post('/skills/:id/update', (req, res) => {
-    const id = req.params.id
-    const project = {
-      skillName: req.body.skillName,
-      skillDesc: req.body.skillDesc,
+app.post('/about/skills/:id/update', (req, res) => {
+  const id = req.params.id
+  const skill = {
+    skillName: req.body.name,
+    skillDesc: req.body.desc,
 
-    }
-  
-    if (req.session.isLoggedIn === true && req.session.isAdmin === true) {
-      //const id = req.params.id; // You need to get the id from the request parameters
-      db.updateProjectById(
-        id,
-        skill.skillName,
-        skill.skillDesc,
-        
-        (error) => {
-          if (error) {
-            console.log("ERROR: ", error);
-          } else {
-            console.log("Skill updated!");
-            res.redirect('/Aboutme/' + id);
-          }
-        }
-      );
-    } else {
-      res.redirect('/login');
-    }
-  });
+  }
 
-
-  app.get("/educations/:id/update", (req, res) => {
-    const id = req.params.id
-    
-    db.getEducationByID(id, (err, education) => {
-      if (err) {
-        return res.status(500).send(err)
-      }else {
-        const model = {
-          education
-        }
-          res.render('updateEducation.handlebars', model)
-      }
-    })
-    });
-
-
-    app.post('/educations/:id/update', (req, res) => {
-      const id = req.params.id
-      const education = {
-        educationName: req.body.educationName,
-        educationDesc: req.body.educationDesc,
-        educationStartDate: req.body.educationStartDate,
-        educationEndDate: req.body.educationEndDate
-      }
-    
-      if (req.session.isLoggedIn === true && req.session.isAdmin === true) {
-        //const id = req.params.id; // You need to get the id from the request parameters
-        db.updateProjectById(
-          id,
-          education.educationName,
-          education.educationDesc,
-          education.educationStartDate,
-          education.educationEndDate,
-          (error) => {
-            if (error) {
-              console.log("ERROR: ", error);
-            } else {
-              console.log("education updated!");
-              res.redirect('/Aboutme/' + id);
-            }
-          }
-        );
-      } else {
-        res.redirect('/login');
-      }
-    });
-
-
-    app.get("/experiences/:id/update", (req, res) => {
-      const id = req.params.id
-      
-      db.getexperienceByID(id, (err, experience) => {
-        if (err) {
-          return res.status(500).send(err)
-        }else {
-          const model = {
-            experience
-          }
-            res.render('updateExperience.handlebars', model)
-        }
-      })
-      });
-
-      app.post('/experiences/:id/update', (req, res) => {
-        const id = req.params.id
-        const experience = {
-          experienceName: req.body.experienceName,
-          experienceDesc: req.body.experienceDesc,
-          experienceStartDate: req.body.experienceStartDate,
-          experienceEndDate: req.body.experienceEndDate
-        }
-      
-        if (req.session.isLoggedIn === true && req.session.isAdmin === true) {
-          //const id = req.params.id; // You need to get the id from the request parameters
-          db.updateExperienceById(
-            id,
-            experience.experienceName,
-            experience.eexperienceesc,
-            experience.eexperienceStartDate,
-            experience.experienceEndDate,
-            (error) => {
-              if (error) {
-                console.log("ERROR: ", error);
-              } else {
-                console.log("experience updated!");
-                res.redirect('/Aboutme/' + id);
-              }
-            }
-          );
+  if (req.session.isLoggedIn === true && req.session.isAdmin === true) {
+    db.updateSkillById(
+      id,
+      skill.skillName,
+      skill.skillDesc,
+      (error) => {
+        if (error) {
+          console.log("ERROR: ", error);
         } else {
-          res.redirect('/login');
+          console.log("Skill updated!");
+          res.redirect('/about/skills/' + id);
         }
-      });
+      }
+    );
+  } else {
+    res.redirect('/login');
+  }
+});
+
+app.post('/about/skills/:id/delete', (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true) {
+    res.redirect('/login')
+  }
+  const id = req.params.id
+
+  db.deleteSkillById(id, (err) => {
+    if (err) {
+      return res.status(500).send(err)
+    } else {
+      res.redirect('/about')
+    }
+  })
+})
+
+app.get("/about/educations/create", (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
+    res.redirect('/login')
+  }
+  res.render('createEducation.handlebars')
+});
+
+app.post("/about/educations/create", (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
+    res.redirect('/login')
+  }
+  const education = {
+    name: req.body.title,
+    desc: req.body.desc,
+    startDate: req.body.start,
+    endDate: req.body.end
+
+  }
+  db.createEducation(education.name, education.desc, education.startDate, education.endDate, function (error) {
+    res.redirect('/about')
+  })
+});
+
+app.get("/about/educations/:id/update", (req, res) => {
+  const id = req.params.id
+
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true) {
+    res.redirect('/login')
+  }
+
+  db.getEducationByID(id, (err, education) => {
+    if (err) {
+      return res.status(500).send(err)
+    } else {
+      const model = {
+        education
+      }
+      res.render('updateEducation.handlebars', model)
+    }
+  })
+});
+
+app.post('/educations/:id/update', (req, res) => {
+  const id = req.params.id
+  const education = {
+    educationName: req.body.educationName,
+    educationDesc: req.body.educationDesc,
+    educationStartDate: req.body.educationStartDate,
+    educationEndDate: req.body.educationEndDate
+  }
+
+  if (req.session.isLoggedIn === true && req.session.isAdmin === true) {
+    //const id = req.params.id; // You need to get the id from the request parameters
+    db.updateProjectById(
+      id,
+      education.educationName,
+      education.educationDesc,
+      education.educationStartDate,
+      education.educationEndDate,
+      (error) => {
+        if (error) {
+          console.log("ERROR: ", error);
+        } else {
+          console.log("education updated!");
+          res.redirect('/Aboutme/' + id);
+        }
+      }
+    );
+  } else {
+    res.redirect('/login');
+  }
+});
 
 
-app.post('/login',(req, res) => {
+app.get("/experiences/:id/update", (req, res) => {
+  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true) {
+    res.redirect('/login')
+  }
+  const id = req.params.id
+
+  db.getexperienceByID(id, (err, experience) => {
+    if (err) {
+      return res.status(500).send(err)
+    } else {
+      const model = {
+        experience
+      }
+      res.render('updateExperience.handlebars', model)
+    }
+  })
+});
+
+app.post('/experiences/:id/update', (req, res) => {
+  const id = req.params.id
+  const experience = {
+    experienceName: req.body.experienceName,
+    experienceDesc: req.body.experienceDesc,
+    experienceStartDate: req.body.experienceStartDate,
+    experienceEndDate: req.body.experienceEndDate
+  }
+
+  if (req.session.isLoggedIn === true && req.session.isAdmin === true) {
+    //const id = req.params.id; // You need to get the id from the request parameters
+    db.updateExperienceById(
+      id,
+      experience.experienceName,
+      experience.eexperienceesc,
+      experience.eexperienceStartDate,
+      experience.experienceEndDate,
+      (error) => {
+        if (error) {
+          console.log("ERROR: ", error);
+        } else {
+          console.log("experience updated!");
+          res.redirect('/Aboutme/' + id);
+        }
+      }
+    );
+  } else {
+    res.redirect('/login');
+  }
+});
+
+
+app.post('/login', (req, res) => {
   const un = req.body.un
   const pw = req.body.pw
 
-  if(un == "Dema" && pw == "f2A4Dzv6U"){
+  if (un == "Dema" && pw == "f2A4Dzv6U") {
     console.log("Dema is Logged in!")
+    req.session.isLoggedIn = true
+    req.session.isAdmin = true
     res.redirect('/')
-  }else{
+  } else {
     console.log('Bad user and/or bad password')
     res.redirect('/login')
   }
 });
 
-app.use(function(req,res){
+app.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect('/login');
+    }
+  });
+});
+
+app.use(function (req, res) {
   res.status(404).render('404.handlebars')
 });
 
@@ -417,6 +475,3 @@ app.use(function(req,res){
 app.listen(port, () => {
   console.log(`Server running and listening on port ${port}`);
 });
-
-
-

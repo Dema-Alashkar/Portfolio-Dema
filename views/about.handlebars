@@ -5,7 +5,7 @@
 
     <div class="update">
 
-        <form action="/about/skills/{{skill.id}}/update" method="get">
+        <form action="/about/skills/{{skills.id}}/update" method="get">
             <input type="submit" value = "update">
         </form>
 
@@ -21,4 +21,38 @@
             <input type="submit" value="delete">
         </form>
     </div>
+    <section id="skills">
+    <div class="container">
+        <div class="row">
+            <h1 class="SkillsName"> 
+                Here are my Skills
+            </h1>
+            <ul class="SkillsList">
+                {{#each m_skills}}
+                <ul class="">
+                    <li class="">
+                        <div class="skillcontainer">
+                            <div class="skilldescription">
+                                
+                                <h1 class="skill--name">
+                                    {{m_skills.SkillName}}
+                                </h1>
+
+                                <p class="skill--para">
+                                    {{SkillDesc}}
+                                </p>
+
+                                <a href="/about/skills/{{id}}">
+                                    View Skill
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                {{/each}}
+            </ul>
+
+        </div>
+    </div>
+</section>
 </div>

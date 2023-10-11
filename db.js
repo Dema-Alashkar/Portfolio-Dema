@@ -87,7 +87,7 @@ exports.deleteProjectById = function(id, callback){
 }
 // Skills
 exports.createSkill = function(Skillname, Skilldesc, callback) {
-    const query = "INSERT INTO Skills (SkillName, skillDesc)"
+    const query = "INSERT INTO Skills (SkillName, skillDesc) VALUES (?,?)"
     const values = [Skillname, Skilldesc]
     database.run(query,values,function(error){
         callback(error)
@@ -96,7 +96,7 @@ exports.createSkill = function(Skillname, Skilldesc, callback) {
 
 
 exports.getAllSkill = function(callback){
-    const query = "SELECT * From Skill ORDER BY id DESC"
+    const query = "SELECT * From Skills ORDER BY id DESC"
 
     database.all(query, function(error, res){
         callback(error, res)
@@ -104,7 +104,7 @@ exports.getAllSkill = function(callback){
 }
 
 exports.getSkillByID = function(id, callback){
-    const query = "SELECT * FROM Skill WHERE id = ? LIMIT 1"
+    const query = "SELECT * FROM Skills WHERE id = ? LIMIT 1"
     const value = id
 
     database.get(query, value, function(error, res){

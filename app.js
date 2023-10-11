@@ -43,26 +43,24 @@ app.get("/", function (req, res) {
 });
 
 app.get("/about", (req, res) => {
-  model = {
-    errors: {},
-    skills: {},
-    education: {},
-    experience: {}
-  }
+  var m_skills = {}
+  /* var m_skills = {}
+  var m_skills = {} */
+
   db.getAllSkill((err, skills) => {
     if (err) {
-      //return res.status(500).send(err)
-      model.errors += err
+      console.log(err)
     }
     else{
-      model.skills = skills
+      m_skills = skills
     }
+    console.log(m_skills)
   })
-  db.getAllEducation((err, education) => {
+  /* db.getAllEducation((err, education) => {
     if (err) {
       //return res.status(500).send(err)
       model.errors += err
-      console.log(err)
+      con sole.log(err)
     }
     else{
       model.education = education
@@ -77,8 +75,8 @@ app.get("/about", (req, res) => {
     else{
       model.experience = experience
     }
-  })
-  res.render('about.handlebars', model)
+  }) */
+  res.render('about.handlebars', m_skills)
 });
 
 app.get("/contact", (req, res) => {
@@ -98,11 +96,11 @@ app.get("/about/skills/create", (req, res) =>{
 
 app.post("/about/skills/create", (req, res) => {
   const skill = {
-    title: req.body.title,
-    desc: req.body.desc,
+    name: req.body.name,
+    desc: req.body.desc
   }
-  db.createSkill(skill.title, skill.desc, function(error){
-    res.redirect('/skills')
+  db.createSkill(skill.name, skill.desc, function(error){
+    res.redirect('/about')
   })
 });
 
@@ -119,7 +117,7 @@ app.post("/about/education/create", (req, res) => {
 
   }
   db.createEducation(education.name, education.desc, education.startDate, education.endDate, function(error){
-    res.redirect('/education')
+    res.redirect('/about')
   })
 });
 
@@ -136,7 +134,7 @@ app.post("/about/experience/create", (req, res) => {
 
   }
   db.createExperince(experience.name, experience.desc, experience.startDate, experience.endDate, function(error){
-    res.redirect('/experience')
+    res.redirect('/about')
   })
 });
 
@@ -189,6 +187,8 @@ app.get("/projects/:id", (req, res) => {
 });
 
 
+
+
 app.get("/projects/:id/update", (req, res) => {
 const id = req.params.id
 
@@ -203,6 +203,8 @@ db.getProjectByID(id, (err, project) => {
   }
 })
 })
+
+
 
 app.post('/projects/:id/update', (req, res) => {
   const id = req.params.id
@@ -236,6 +238,22 @@ app.post('/projects/:id/update', (req, res) => {
     res.redirect('/login');
   }
 });
+
+app.get("/about/skills/:id", (req, res) => {
+  const id = req.params.id 
+
+  db.getSkillByID(id, (err, skill) => {
+    if (err) {
+      return res.status(500).send(err)
+    }else {
+      const model = {
+        skill
+      }
+        res.render('skill.handlebars', model)
+    }
+  })
+  })
+
 
 app.get("/about/skills/:id/update", (req, res) => {
   const id = req.params.id

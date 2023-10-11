@@ -1,0 +1,29 @@
+<section id="skill">
+    <div class="container">
+        {{#if skill}}
+            <div class="row">
+                    <li class="skill">
+                        <div class="skillcontainer">
+                            {{!-- <img class="hero" src="/img/To-do-app.PNG" alt="img-calender" srcset=""> --}}
+                            <div class="skilldescription">
+                                <h1 class="skill--name">
+                                    {{skill.SkillName}}
+                                </h1>
+                                <p class="skill--Desc">
+                                    {{skill.SkillDesc}}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <div class="form-group">
+                        <form action="/about/{{skill.id}}/update" method="get">
+                            <input type="submit" value="update">
+                        </form>
+                        <form action="/sbout/{{skill.id}}/delete" method="post">
+                            <input type="submit" value="delete">
+                        </form>
+                    </div>
+            </div>
+        {{/if}}
+    </div>
+</section>

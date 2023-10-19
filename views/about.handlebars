@@ -4,7 +4,7 @@
         <div class="row">
             {{#if m_skills.length}}
             <h1 class="SkillsName">
-                Here are my Skills
+                My Skills
             </h1>
             <ul class="SkillsList">
                 {{#each m_skills}}
@@ -12,11 +12,11 @@
                     <li class="">
                         <div class="skillcontainer">
                             <div class="skilldescription">
-
-                                <h1 class="skill--name">
+                                <p class="SN">Skill Name</p>
+                                <h2 class="skill--name">
                                     {{SkillName}}
-                                </h1>
-
+                                </h2>
+                                <p class="SD">Skill Description</p>
                                 <p class="skill--para">
                                     {{SkillDesc}}
                                 </p>
@@ -29,6 +29,76 @@
                     </li>
                 </ul>
                 {{/each}}
+                {{/if}}
+                {{#if m_educations.length}}
+            <h1 class="educationName">
+                My Education
+            </h1>
+        
+            <ul class="EducationsList">
+                {{#each m_educations}}
+                <ul class="">
+                    <li class="">
+                        <div class="educationcontainer">
+                            <div class="educationdescription">
+                                
+                                <p class="EDN">Education Name</p>
+                                <h2 class="education--name">
+                                    {{EducationName}}
+                                </h2>
+                                <p class="EDD">Education Description</p>
+                                <p class="education--para">
+                                    {{EducationDesc}}
+                                </p>
+                                <p class="EDSD">Education Start Date</p>
+                                <p class="education--startdate">
+                                    {{EducationStartDate}}
+                                </p>
+                                <p class="EDED">Education End Date</p>
+                                <p class="education--EndDate">
+                                    {{EducationEndDate}}
+                                </p>
+
+                                
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                {{/each}}
+                {{/if}}
+                 {{#if m_experience.length}}
+                 <h1 class="ExperienceName">
+                    My Experiences
+                </h1>
+                {{#each m_experience}}
+                
+                <ul class="">
+                    <li class="">
+                        <div class="experiencecontainer">
+                            <div class="experiencedescription">
+                                <p class="EXN">Experience Name</p>
+                                <h2 class="experience--name">
+                                    {{ExperienceName}}
+                                </h2>
+                                <p class="EXD">Experience Description</p>
+                                <p class="experience--para">
+                                    {{ExperienceDesc}}
+                                </p>
+                                <p class="EXSD">Experience Start Date</p>
+                                <p class="experience--startdate">
+                                    {{ExperienceStartdate}}
+                                </p>
+                                <p class="EXED">Experience End Date</p>
+                                <p class="experience--EndDate">
+                                    {{ExperienceEndDate}}
+                                </p>
+
+                                
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                {{/each}}
             </ul>
         {{else}}
         <h1>Sorry there are no skills currently</h1>
@@ -36,8 +106,9 @@
         {{#if isLoggedIn}}
         <li><a href="/about/skills/create">Create Skill</a></li>
         <li><a href="/about/educations/create">Create Education</a></li>
-        <li><a href="/about/experience/create">Create Experience</a></li>
+        <li><a href="/about/experiences/create">Create Experience</a></li>
         {{/if}}
+        
 
         </div>
     </div>

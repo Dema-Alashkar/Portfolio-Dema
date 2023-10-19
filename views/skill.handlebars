@@ -15,14 +15,16 @@
                             </div>
                         </div>
                     </li>
-                    <div class="form-group">
-                        <form action="/about/skills/{{skill.id}}/update" method="get">
-                            <input type="submit" value="update">
-                        </form>
-                        <form action="/about/skills/{{skill.id}}/delete" method="post">
-                            <input type="submit" value="delete">
-                        </form>
-                    </div>
+                    {{#if isLoggedIn}}
+                        <div class="form-group">
+                            <form action="/about/skills/{{skill.id}}/update" method="get">
+                                <input type="submit" value="update">
+                            </form>
+                            <form action="/about/skills/{{skill.id}}/delete" method="post">
+                                <input type="submit" value="delete">
+                            </form>
+                        </div>
+                    {{/if}}
             </div>
         {{/if}}
     </div>

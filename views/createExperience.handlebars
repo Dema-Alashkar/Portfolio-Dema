@@ -1,31 +1,32 @@
 <section id="create-experience">
     <div class="container">
         <div class="row">
-            {{> errors}}
-            <h1 class="section_title">Create <span class="citron">experience</span></h1>
+            {{#if isLoggedIn}}
+                <h1 class="section_title">Create <span class="citron">experience</span></h1>
+            {{/if}}
             <div class="create-img-wrapper">
                 <img src="" alt="">
             </div>
-            <form action="/about/experiences/create" method="POST" enctype="multipart/form-data" class="form">
+            <form action="/about/experiences/create" method="POST" class="form">
 
                 <div class="from-group col-5">
                     <label class="form-label" for="from-input">Title</label>
-                    <input class="form-input" type="text" placeholder="experience Name" name="title" required />
+                    <input class="form-input" type="text" placeholder="experience Name" name="name" required />
                 </div>
 
                 <div class="form-group col-5">
                     <label class="form-label" for="form-input">Description</label>
-                    <textarea class="form-input" id="input-decsription" placeholder="Type experience description" row="5" name="description"></textarea>
+                    <textarea class="form-input" id="input-decsription" placeholder="Type experience description" row="5" name="desc"></textarea>
                 </div>
 
                 <div class="form-group col-5">
                     <label class="form-label" for="form-input">StartDate</label>
-                    <textarea class="form-input" id="input-SatrtDate" placeholder="Type experience start date" row="5" name="StartDate"></textarea>
+                    <textarea class="form-input" id="input-SatrtDate" placeholder="Type experience start date" row="5" name="startDate"></textarea>
                 </div>
 
                 <div class="form-group col-5">
                     <label class="form-label" for="form-input">End Date</label>
-                    <textarea class="form-input" id="input-EndDate" placeholder="Type experience EndDate" row="5" name="EndDate"></textarea>
+                    <textarea class="form-input" id="input-EndDate" placeholder="Type experience EndDate" row="5" name="endDate"></textarea>
                 </div>
 
 

@@ -1,9 +1,11 @@
 <section id="projects">
     <div class="container">
         <div class="row">
-            <form action="/projects/create" method="get">
-                <input type="submit" value="Create Project">    
-            </form>
+            {{#if isLoggedIn}}
+                <form action="/projects/create" method="get">
+                    <input type="submit" value="Create Project">    
+                </form>
+            {{/if}}
             {{#if projects.length}}
             <h1 class="projectstitle"> 
                 Here are my Projects
@@ -15,18 +17,19 @@
                         <div class="projectcontainer">
                             <div class="projectdescription">
                                 
+                                <p class="PT">Project Title</p>
                                 <h1 class="project--title">
                                     {{projectTitle}}
                                 </h1>
-
+                                <p class="PD">Project Description</p>
                                 <p class="project--para">
                                     {{projectDesc}}
                                 </p>
-
+                                <p class="PG">Link To GitHub</p>
                                 <p class="link_to_project_in_gitHub"> 
                                     {{projectLink}}
                                 </p>
-
+                                <p class="PCD">Project Created In</p>
                                 <p class="date_created">
                                     {{projectDate}}
                                 </p>

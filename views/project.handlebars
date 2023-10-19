@@ -21,14 +21,16 @@
                             </div>
                         </div>
                     </li>
-                    <div class="form-group">
-                        <form action="/projects/{{project.id}}/update" method="get">
-                            <input type="submit" value="update">
-                        </form>
-                        <form action="/projects/{{project.id}}/delete" method="post">
-                            <input type="submit" value="delete">
-                        </form>
-                    </div>
+                    {{#if isLoggedIn}}
+                        <div class="form-group">
+                            <form action="/projects/{{project.id}}/update" method="get">
+                                <input type="submit" value="update">
+                            </form>
+                            <form action="/projects/{{project.id}}/delete" method="post">
+                                <input type="submit" value="delete">
+                            </form>
+                        </div>
+                    {{/if}}
             </div>
         {{/if}}
     </div>

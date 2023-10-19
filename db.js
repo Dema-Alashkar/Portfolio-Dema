@@ -182,9 +182,11 @@ exports.deleteEducationById = function(id, callback){
 
 //Experince
 
-exports.createExperince = function(ExperinceName, ExperinceDesc, EExperinceStartDate, ExperinceEndDate, callback) {
-    const query = "INSERT INTO Experince (EducationName, EducationDesc, EducationStartDate, EducationEndDate)"
-    const values = [ExperinceName, ExperinceDesc, EExperinceStartDate, ExperinceEndDate]
+exports.createExperince = function(ExperienceName, ExperienceDesc, ExperienceStartDate, ExperienceEndDate, callback) {
+    const query = "INSERT INTO Experience (ExperienceName, ExperienceDesc, ExperienceStartDate, ExperienceEndDate) VALUES (?, ?, ?, ?)"
+    const values = [ExperienceName, ExperienceDesc, ExperienceStartDate, ExperienceEndDate]
+    console.log(query)
+    console.log(values)
     database.run(query,values,function(error){
         callback(error)
     })
@@ -224,3 +226,4 @@ exports.deleteExperienceById = function(id, callback){
         callback(error, res)
     })
 }
+

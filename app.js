@@ -8,6 +8,7 @@ const session = require("express-session")
 const SQLiteStore = require('connect-sqlite3')(session)
 const cookieParser = require('cookie-parser')
 const port = 3000; // defines the port
+const bcrypt = require('bcrypt')
 const app = express(); // creates the Express application
 
 // defines handlebars engine
@@ -25,7 +26,8 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 
-const db = require('./db')
+const db = require('./db');
+const e = require("express");
 
 app.use(session({
   secret: "ShukriIsTooAwesome&zwEEtByWinterrr",
@@ -55,12 +57,35 @@ app.get("/about", (req, res) => {
       })
     } else {
       console.log(skills)
-      res.render('about.handlebars', {
-        m_skills: skills
+      db.getAllEducation((err, educations) => {
+        if (err) {
+          console.log(err)
+          res.render('about.handlebars', {
+            m_educations:{}
+          })
+        } else {
+          console.log(educations)
+          db.getAllExperience((err, experience) => {
+            if (err) {
+              console.log(err)
+              res.render('about.handlebars', {
+                m_experience:{}
+              })
+            } else {
+              console.log(experience)
+              res.render('about.handlebars', {
+                m_skills: skills,
+                m_educations: educations,
+                m_experience: experience
+              })
+            }
+          })
+        }
       })
     }
   })
 });
+
 
 app.get("/contact", (req, res) => {
   res.render("contact.handlebars");
@@ -93,27 +118,28 @@ app.post("/about/skills/create", (req, res) => {
   })
 });
 
-app.get("/about/experience/create", (req, res) => {
+app.get("/about/experiences/create", (req, res) => {
   if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
     res.redirect('/login')
   }
-  res.render('createExperience.handlebars')
+  else {
+    res.render('createExperience.handlebars')
+  }
 });
 
-app.post("/about/experience/create", (req, res) => {
-  if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
-    res.redirect('/login')
-  }
-  const experience = {
-    name: req.body.name,
-    desc: req.body.desc,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate
+app.post("/about/experiences/create", (req, res) => {
+    const experience = {
+      name: req.body.name,
+      desc: req.body.desc,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate
+    }
 
-  }
   db.createExperince(experience.name, experience.desc, experience.startDate, experience.endDate, function (error) {
+    console.log(experience)
     res.redirect('/about')
   })
+
 });
 
 app.get("/projects", (req, res) => {
@@ -239,6 +265,17 @@ app.post('/projects/:id/delete', (req, res) => {
     }
   })
 })
+
+// app.get("/about/skills", (req, res) => {
+ 
+//   if (req.session.isLoggedIn !== true || req.session.isAdmin !== true){
+//     res.redirect('/login')
+//   }
+//   else {
+//     res.render('createSkill.handlebars')
+//   }
+  
+// })
 
 app.get("/about/skills/:id", (req, res) => {
   const id = req.params.id
@@ -442,20 +479,35 @@ app.post('/experiences/:id/update', (req, res) => {
 });
 
 
-app.post('/login', (req, res) => {
-  const un = req.body.un
-  const pw = req.body.pw
+const adminUsername = "Dema"
+const hash = "$2a$10$tESSlBBd11ON9QDRLzZuTu6COuk3DNxhpMZJ.AQtJoGFLGG5GDm72"
 
-  if (un == "Dema" && pw == "f2A4Dzv6U") {
-    console.log("Dema is Logged in!")
-    req.session.isLoggedIn = true
-    req.session.isAdmin = true
-    res.redirect('/')
-  } else {
-    console.log('Bad user and/or bad password')
-    res.redirect('/login')
-  }
-});
+app.post('/login', (req, res) => {
+  const username = req.body.un
+  const password = req.body.pw
+  const error = []
+
+  bcrypt.compare(password, hash, (err, result) => {
+
+    console.log(result)
+    if (err) {
+      error.push("authentication failed")
+      const model = { error } 
+      res.render("login.handlebars", model)
+    } else {
+      if (result && username == adminUsername) {
+
+        req.session.isLoggedIn = true
+        req.session.isAdmin = true
+        res.redirect("/")
+      } else {
+        error.push("wrong username or password")
+        const model = { error }
+        res.render('login.handlebars', model)
+      }
+    }
+  })
+})
 
 app.post('/logout', (req, res) => {
   req.session.destroy((err) => {
